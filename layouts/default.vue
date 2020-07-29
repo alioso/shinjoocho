@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Title />
     <Menu />
     <Nuxt />
   </div>

@@ -3,7 +3,7 @@ import client from '~/plugins/contentful';
 export const state = () => ({
   pages: null,
   events: null,
-  backgroundImages: null
+  homeTiles: null
 });
 
 export const mutations = {
@@ -13,8 +13,8 @@ export const mutations = {
   setEvents: (state, events) => {
     state.events = events;
   },
-  setBackgroundImages: (state, backgroundImages) => {
-    state.backgroundImages = backgroundImages;
+  setHomeTiles: (state, homeTiles) => {
+    state.homeTiles = homeTiles;
   }
 };
 
@@ -27,7 +27,7 @@ export const actions = {
       });
       if (response.items.length > 0) commit('setPages', response.items);
     } catch (err) {
-      console.error(err);
+      throw new Error(err);
     }
   },
 
@@ -39,20 +39,19 @@ export const actions = {
       });
       if (response.items.length > 0) commit('setEvents', response.items);
     } catch (err) {
-      console.error(err);
+      throw new Error(err);
     }
   },
 
-  async getBackgroundImages({ commit }) {
+  async getHomeTiles({ commit }) {
     try {
       if (!client) return;
       const response = await client.getEntries({
-        content_type: 'backgroundImages'
+        content_type: 'homeTile'
       });
-      if (response.items.length > 0)
-        commit('setBackgroundImages', response.items);
+      if (response.items.length > 0) commit('setHomeTiles', response.items);
     } catch (err) {
-      console.error(err);
+      throw new Error(err);
     }
   }
 };

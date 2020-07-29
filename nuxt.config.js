@@ -49,7 +49,7 @@ export default {
     '~/plugins/contentful',
     '~/plugins/pages',
     '~/plugins/events',
-    '~/plugins/backgroundImages'
+    '~/plugins/homeTiles'
   ],
   /*
    ** Auto import components
@@ -73,12 +73,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    '@nuxtjs/pwa',
-    // Doc: https://github.com/nuxt/content
-    '@nuxt/content',
-    '@nuxtjs/markdownit'
-  ],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/markdownit'],
   markdownit: {
     injected: true
   },

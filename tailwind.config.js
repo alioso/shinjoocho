@@ -49,6 +49,7 @@ module.exports = {
       grey300: '#e2e8f0',
       grey100: '#f5f8fA',
       white: '#fff',
+      black: '#000',
 
       // UTILITIES
       success: '#2b7e52',
