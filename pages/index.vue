@@ -21,23 +21,23 @@ export default {
     tiles() {
       const TilesArray = (this as any).$store.state.homeTiles;
 
-      const getRandom = (arr: Object[], n: number) => {
-        const result = new Array(n);
-        let len = arr.length;
-        const taken = new Array(len);
-        if (n > len)
-          throw new RangeError('getRandom: more elements taken than available');
-        while (n--) {
-          const x = Math.floor(Math.random() * len);
-          result[n] = arr[x in taken ? taken[x] : x];
-          taken[x] = --len in taken ? taken[len] : len;
-        }
-        return result;
-      };
+      // const getRandom = (arr: Object[], n: number) => {
+      //   const result = new Array(n);
+      //   let len = arr.length;
+      //   const taken = new Array(len);
+      //   if (n > len)
+      //     throw new RangeError('getRandom: more elements taken than available');
+      //   while (n--) {
+      //     const x = Math.floor(Math.random() * len);
+      //     result[n] = arr[x in taken ? taken[x] : x];
+      //     taken[x] = --len in taken ? taken[len] : len;
+      //   }
+      //   return result;
+      // };
 
-      const randomTiles = getRandom(TilesArray, 4);
+      // const randomTiles = getRandom(TilesArray, 4);
 
-      return randomTiles;
+      return TilesArray;
     }
   }
 };
@@ -96,10 +96,6 @@ export default {
     overflow-hidden;
 }
 
-/* .home-image-container:nth-of-type(1) {
-      @apply mb-2;
-    } */
-
 .home-image-container:nth-of-type(1) .home-image-link {
   @apply items-end
     justify-end
@@ -127,4 +123,21 @@ export default {
     ml-2
     mt-2;
 }
+
+.page-enter-active,
+.page-leave-active {
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  transition-duration: 500ms;
+}
+
+.page-enters,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* .page-enter .home-image-container:nth-of-type(1),
+.page-leave-to .home-image-container:nth-of-type(1) {
+  height: 100%;
+} */
 </style>

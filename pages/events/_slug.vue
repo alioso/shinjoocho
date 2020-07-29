@@ -17,6 +17,7 @@ export default {
       slug: this.$route.params.slug
     };
   },
+
   computed: {
     event() {
       const event = this.$store.state.events.filter(
@@ -37,6 +38,7 @@ export default {
       };
     }
   },
+
   head() {
     return {
       title: this.event.fields.title
