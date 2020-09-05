@@ -1,5 +1,10 @@
 <template>
-  <ul v-if="pages" role="menu" class="m-4 fixed">
+  <ul
+    v-if="pages"
+    role="menu"
+    class="main-menu"
+    :class="$nuxt.$route.path === '/' && 'home'"
+  >
     <li>
       <nuxt-link :to="'/'" role="menuitem" :class="listItemsClassNames"
         >Home</nuxt-link
@@ -39,3 +44,22 @@ export default {
   }
 };
 </script>
+
+<style>
+.main-menu {
+  @apply fixed
+    inline-block
+    z-10
+    p-4
+    font-semibold;
+  top: 50%;
+  margin-top: -2rem;
+  letter-spacing: 4px;
+  opacity: 1;
+  transition: opacity 1000ms ease-in-out;
+}
+
+.main-menu.home {
+  opacity: 0;
+}
+</style>

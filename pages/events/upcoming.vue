@@ -4,15 +4,13 @@
       <h1>Upcoming Events</h1>
       <div v-for="event in events" :key="event.fields.slug" class="mb-4">
         <nuxt-link
-          :to="'/events/' + event.fields.slug"
           v-if="
             $dateFns.format(event.fields.date) > $dateFns.format(new Date())
           "
+          :to="'/events/' + event.fields.slug"
           role="menuitem"
         >
-          <div>
-            {{ $dateFns.format(event.fields.date, 'EEEE, MMMM d, yyyy') }}
-          </div>
+          <div>{{ $dateFns.format(event.fields.date, 'EEEE, MMMM d, yyyy') }}</div>
           <div>{{ event.fields.title }}</div>
         </nuxt-link>
       </div>

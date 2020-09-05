@@ -1,11 +1,6 @@
 <template>
-  <div
-    class="main-title-container"
-    :class="$nuxt.$route.path === '/' && 'home'"
-  >
-    <h1 class="main-title">
-      Shinjoo Cho
-    </h1>
+  <div class="main-title-container" :class="$nuxt.$route.path === '/' && 'home'">
+    <h1 class="main-title">Shinjoo Cho</h1>
     <p class="main-subtitle">bandoneon / piano</p>
   </div>
 </template>
@@ -15,18 +10,20 @@
 <style>
 .main-title-container {
   @apply fixed
-    inline-block
     z-10
-    p-4;
-  top: 50%;
-  margin-top: -5.5rem;
+    p-4
+    flex
+    flex-col
+    items-center
+    w-full;
+  /* top: -5.5rem; */
 }
 
 .main-title {
   @apply m-0
     lowercase;
   letter-spacing: 4px;
-  transition: color 500ms ease-in-out;
+  transition: color 1000ms ease-in-out;
 }
 
 .main-subtitle {

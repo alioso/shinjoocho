@@ -2,14 +2,15 @@
   <div>
     <ul class="home-image-wrapper">
       <li
-        v-for="tile in tiles"
+        v-for="(tile, i) in tiles"
         :key="tile.fields.url"
         class="home-image-container"
+        :class="[{ active : active_el === i }, 'tile-' + i]"
       >
-        <nuxt-link :to="'/' + tile.fields.url" class="home-image-link"
-          ><h2 class="home-image-title">{{ tile.fields.title }}</h2>
+        <a href="javascript:;" class="home-image-link" @click="activate(i)">
+          <h2 class="home-image-title">{{ tile.fields.title }}</h2>
           <img :src="tile.fields.image.fields.file.url" class="home-image" />
-        </nuxt-link>
+        </a>
       </li>
     </ul>
   </div>
@@ -17,27 +18,21 @@
 
 <script lang="ts">
 export default {
+  data() {
+    return {
+      active_el: null
+    };
+  },
   computed: {
     tiles() {
       const TilesArray = (this as any).$store.state.homeTiles;
 
-      // const getRandom = (arr: Object[], n: number) => {
-      //   const result = new Array(n);
-      //   let len = arr.length;
-      //   const taken = new Array(len);
-      //   if (n > len)
-      //     throw new RangeError('getRandom: more elements taken than available');
-      //   while (n--) {
-      //     const x = Math.floor(Math.random() * len);
-      //     result[n] = arr[x in taken ? taken[x] : x];
-      //     taken[x] = --len in taken ? taken[len] : len;
-      //   }
-      //   return result;
-      // };
-
-      // const randomTiles = getRandom(TilesArray, 4);
-
       return TilesArray;
+    }
+  },
+  methods: {
+    activate: function (el: any) {
+      (this.active_el as any) === el;
     }
   }
 };
@@ -60,6 +55,12 @@ export default {
     bg-black;
   flex-basis: 50%;
   height: 50%;
+  transition: transform 200ms ease-in-out;
+}
+
+.home-image-container.active {
+  transform: scale(1, 2);
+  z-index: 10000;
 }
 
 .home-image {
@@ -84,7 +85,7 @@ export default {
     z-20
     lowercase
     m-0
-    p-8;
+    p-4;
   letter-spacing: 4px;
 }
 

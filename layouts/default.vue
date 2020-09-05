@@ -83,10 +83,13 @@ a:hover {
 .container {
   @apply min-h-screen
     flex
-    justify-center
     items-center
-    text-center
     mx-auto;
+  max-width: 30em;
+}
+
+.container > div {
+  @apply w-full;
 }
 
 .page-enter-active,
