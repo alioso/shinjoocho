@@ -107,7 +107,7 @@ a:hover {
   --body-font-size: 1rem;
   --caption-font-size: 0.75rem;
   --pre-font-size: 0.9rem;
-  --body-line-height: 1.3;
+  --body-line-height: 1.5;
   --heading-font-weight: 400;
   --subtitle-font-weight: 400;
   --h1: 2.25rem;

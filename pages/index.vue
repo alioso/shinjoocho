@@ -5,18 +5,30 @@
         v-for="(tile, i) in tiles"
         :key="tile.fields.url"
         class="home-image-container"
-        :class="[{ active : active_el === i }, 'tile-' + i]"
+        :class="[{ active: active_el === i }, 'tile-' + i]"
       >
         <a href="javascript:;" class="home-image-link" @click="activate(i)">
           <h2 class="home-image-title">{{ tile.fields.title }}</h2>
           <img :src="tile.fields.image.fields.file.url" class="home-image" />
         </a>
+        <div class="home-body__wrapper">
+          <button @click="onClose" aria-label="Close">
+            <img src="~/assets/icons/close.png" class="close-icon" alt="close" />
+          </button>
+          <div
+            v-html="body.richTextHtml"
+            v-if="tile.fields.body"
+            class="home-body"
+          ></div>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
+<script>
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
 export default {
   data() {
     return {
@@ -25,14 +37,23 @@ export default {
   },
   computed: {
     tiles() {
-      const TilesArray = (this as any).$store.state.homeTiles;
+      const tilesArray = this.$store.state.homeTiles;
 
-      return TilesArray;
+      return tilesArray;
+    },
+    body() {
+      const body = this.$store.state.homeTiles[0].fields.body;
+      const richTextHtml = documentToHtmlString(body);
+
+      return { richTextHtml };
     }
   },
   methods: {
-    activate: function (el: any) {
-      (this.active_el as any) === el;
+    activate(el) {
+      this.active_el = el;
+    },
+    onClose() {
+      this.active_el = null;
     }
   }
 };
@@ -55,13 +76,13 @@ export default {
     bg-black;
   flex-basis: 50%;
   height: 50%;
-  transition: transform 200ms ease-in-out;
+  transition: height 450ms ease-in-out, opacity 450ms ease-in-out;
 }
 
-.home-image-container.active {
+/* .home-image-container.active {
   transform: scale(1, 2);
   z-index: 10000;
-}
+} */
 
 .home-image {
   @apply relative
@@ -74,9 +95,29 @@ export default {
   opacity: 0.75;
 }
 
-.home-image-container:hover .home-image {
+.home-image-container:not(.active):hover .home-image {
   transform: scale(1.15);
   opacity: 1;
+}
+
+.home-image-container:not(.active):hover .home-image-title {
+  letter-spacing: 4px;
+}
+
+.home-image-container.active {
+  position: relative;
+  height: 100%;
+  z-index: 100000;
+}
+
+.tile-0.active ~ .tile-2 {
+  height: 0;
+}
+
+.tile-0.active ~ .tile-1,
+.tile-0.active ~ .tile-3 {
+  opacity: 0 !important;
+  height: 0;
 }
 
 .home-image-title {
@@ -84,9 +125,10 @@ export default {
     text-white
     z-20
     lowercase
-    m-0
+    -mt-2
     p-4;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
+  transition: letter-spacing 450ms ease-in-out;
 }
 
 .home-image-link {
@@ -125,6 +167,42 @@ export default {
     mt-2;
 }
 
+.home-body__wrapper {
+  @apply fixed
+    flex
+    items-center;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.home-body {
+  @apply py-8;
+  max-width: 60%;
+  margin: 0 auto;
+  max-height: 100%;
+}
+
+.home-body:after {
+  content: '';
+  height: 3rem;
+  display: block;
+}
+
+.close-icon {
+  position: fixed;
+  right: 2rem;
+  top: 2rem;
+  width: 30px;
+}
+
+/* 
+**********************
+Page transitions below
+**********************
+*/
 .page-enter-active,
 .page-leave-active {
   transition-property: opacity;
