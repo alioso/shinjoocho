@@ -5,7 +5,13 @@
         v-for="(tile, i) in tiles"
         :key="tile.fields.url"
         class="home-image-container"
-        :class="[{ active: active_el === i }, 'tile-' + i]"
+        :class="
+          [
+            { active: active_el === i },
+            { inactive: active_el !== i && inactive_el !== null },
+            'tile-' + i
+          ]
+        "
       >
         <a href="javascript:;" class="home-image-link" @click="activate(i)">
           <h2 class="home-image-title">{{ tile.fields.title }}</h2>
@@ -13,7 +19,11 @@
         </a>
         <div class="home-body__wrapper">
           <button @click="onClose" aria-label="Close">
-            <img src="~/assets/icons/close.png" class="close-icon" alt="close" />
+            <img
+              src="~/assets/icons/close.png"
+              class="close-icon"
+              alt="close"
+            />
           </button>
           <div
             v-html="body.richTextHtml"
@@ -32,7 +42,8 @@ import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 export default {
   data() {
     return {
-      active_el: null
+      active_el: null,
+      inactive_el: null
     };
   },
   computed: {
@@ -51,9 +62,11 @@ export default {
   methods: {
     activate(el) {
       this.active_el = el;
+      this.inactive_el = !el;
     },
     onClose() {
       this.active_el = null;
+      this.inactive_el = null;
     }
   }
 };
@@ -67,7 +80,8 @@ export default {
     w-full
     h-full
     flex
-    flex-wrap;
+    flex-wrap
+    bg-white;
 }
 
 .home-image-container {
@@ -76,7 +90,7 @@ export default {
     bg-black;
   flex-basis: 50%;
   height: 50%;
-  transition: height 450ms ease-in-out, opacity 450ms ease-in-out;
+  transition: height 450ms ease-in-out, opacity 450ms ease-in-out, margin 450ms ease-in-out;
 }
 
 /* .home-image-container.active {
@@ -105,19 +119,16 @@ export default {
 }
 
 .home-image-container.active {
+  @apply my-0;
   position: relative;
   height: 100%;
   z-index: 100000;
 }
 
-.tile-0.active ~ .tile-2 {
+.home-image-container.inactive {
+  @apply my-0;
   height: 0;
-}
-
-.tile-0.active ~ .tile-1,
-.tile-0.active ~ .tile-3 {
   opacity: 0 !important;
-  height: 0;
 }
 
 .home-image-title {
@@ -139,32 +150,44 @@ export default {
     overflow-hidden;
 }
 
-.home-image-container:nth-of-type(1) .home-image-link {
+.tile-0 {
+  border-right: 0.25rem solid black;
+  border-bottom: 0.25rem solid black;
+}
+
+.tile-0 .home-image-link {
   @apply items-end
-    justify-end
-    mr-2
-    mb-2;
+    justify-end;
 }
 
-.home-image-container:nth-of-type(2) .home-image-link {
+.tile-1 {
+  border-left: 0.25rem solid black;
+  border-bottom: 0.25rem solid black;
+}
+
+.tile-1 .home-image-link {
   @apply items-end
-    justify-start
-    ml-2
-    mb-2;
+    justify-start;
 }
 
-.home-image-container:nth-of-type(3) .home-image-link {
-  @apply items-start
-    justify-end
-    mr-2
-    mt-2;
+.tile-2 {
+  border-right: 0.25rem solid black;
+  border-top: 0.25rem solid black;
 }
 
-.home-image-container:nth-of-type(4) .home-image-link {
+.tile-2 .home-image-link {
   @apply items-start
-    justify-start
-    ml-2
-    mt-2;
+    justify-end;
+}
+
+.tile-3 {
+  border-left: 0.25rem solid black;
+  border-top: 0.25rem solid black;
+}
+
+.tile-3 .home-image-link {
+  @apply items-start
+    justify-start;
 }
 
 .home-body__wrapper {
