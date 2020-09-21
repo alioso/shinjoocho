@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Title :class="active_el !== null && 'hide'" />
     <ul class="home-image-wrapper">
       <li
         v-for="(tile, i) in tiles"
@@ -17,29 +18,52 @@
           <h2 class="home-image-title">{{ tile.fields.title }}</h2>
           <img :src="tile.fields.image.fields.file.url" class="home-image" />
         </a>
-        <div class="home-body__wrapper">
-          <button @click="onClose" aria-label="Close">
-            <img
-              src="~/assets/icons/close.png"
-              class="close-icon"
-              alt="close"
-            />
-          </button>
-          <div
-            v-html="body.richTextHtml"
-            v-if="tile.fields.body"
-            class="home-body"
-          ></div>
-        </div>
       </li>
     </ul>
+    <div
+      class="home-body__wrapper"
+      :class="[
+        (active_el === 0 || active_el === 2) && 'home-body__wrapper--active right-0',
+        (active_el === 1 || active_el === 3) && 'home-body__wrapper--active left-0'
+      ]"
+    >
+      <button
+        aria-label="Close"
+        class="close-icon"
+        :class="[
+          (active_el === 0 || active_el === 2) && 'close-icon--right',
+          (active_el === 1 || active_el === 3) && 'close-icon--left'
+        ]"
+        @click="onClose"
+      >
+        <img
+          src="~/assets/icons/close.png"
+          alt="close"
+        />
+      </button>
+      <div
+        v-if="active_el === 0"
+        class="home-body"
+        v-html="about.richTextHtml"
+      ></div>
+      <div
+        v-if="active_el === 1"
+        class="home-body"
+      >
+        <Events :events="events" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import Events from '@/components/Events';
 
 export default {
+  components: {
+    Events
+  },
   data() {
     return {
       active_el: null,
@@ -52,11 +76,18 @@ export default {
 
       return tilesArray;
     },
-    body() {
-      const body = this.$store.state.homeTiles[0].fields.body;
-      const richTextHtml = documentToHtmlString(body);
+    about() {
+      const about = this.$store.state.homeTiles.filter((tile) => {
+        return tile.fields.url === 'about';
+      });
+      const richTextHtml = documentToHtmlString(about[0].fields.body);
 
       return { richTextHtml };
+    },
+    events() {
+      const all = this.$store.state.events;
+
+      return all;
     }
   },
   methods: {
@@ -82,6 +113,7 @@ export default {
     flex
     flex-wrap
     bg-white;
+  z-index: 100;
 }
 
 .home-image-container {
@@ -90,13 +122,13 @@ export default {
     bg-black;
   flex-basis: 50%;
   height: 50%;
-  transition: height 450ms ease-in-out, opacity 450ms ease-in-out, margin 450ms ease-in-out;
+  transform: translateY(0);
+  transition:
+    height 450ms ease-in-out,
+    transform 450ms ease-in-out,
+    opacity 450ms ease-in-out,
+    margin 450ms ease-in-out;
 }
-
-/* .home-image-container.active {
-  transform: scale(1, 2);
-  z-index: 10000;
-} */
 
 .home-image {
   @apply relative
@@ -114,21 +146,45 @@ export default {
   opacity: 1;
 }
 
-.home-image-container:not(.active):hover .home-image-title {
-  letter-spacing: 4px;
-}
-
 .home-image-container.active {
   @apply my-0;
   position: relative;
   height: 100%;
   z-index: 100000;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
 }
 
 .home-image-container.inactive {
   @apply my-0;
-  height: 0;
   opacity: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.inactive.tile-0,
+.inactive.tile-1 {
+  transform: translateY(-100%);
+}
+
+.inactive.tile-2,
+.inactive.tile-3 {
+  transform: translateY(-100%);
+}
+
+.active.tile-0,
+.active.tile-1 {
+  transform: translateY(0%);
+}
+
+.active.tile-2,
+.active.tile-3 {
+  transform: translateY(-50%);
+}
+
+
+.home-image-container.inactive .home-image-title {
+  opacity: 0;
 }
 
 .home-image-title {
@@ -138,8 +194,9 @@ export default {
     lowercase
     -mt-2
     p-4;
+  opacity: 1;
+  transition: opacity 50ms ease-in-out;
   letter-spacing: 2px;
-  transition: letter-spacing 450ms ease-in-out;
 }
 
 .home-image-link {
@@ -155,9 +212,10 @@ export default {
   border-bottom: 0.25rem solid black;
 }
 
-.tile-0 .home-image-link {
-  @apply items-end
-    justify-end;
+.tile-0 .home-image-title {
+  right: 0;
+  top: 0;
+  transform: translateY(calc(50vh - 4rem));
 }
 
 .tile-1 {
@@ -165,9 +223,10 @@ export default {
   border-bottom: 0.25rem solid black;
 }
 
-.tile-1 .home-image-link {
-  @apply items-end
-    justify-start;
+.tile-1 .home-image-title {
+  left: 0;
+  top: 0;
+  transform: translateY(calc(50vh - 4rem));
 }
 
 .tile-2 {
@@ -175,9 +234,10 @@ export default {
   border-top: 0.25rem solid black;
 }
 
-.tile-2 .home-image-link {
-  @apply items-start
-    justify-end;
+.tile-2 .home-image-title {
+  right: 0;
+  bottom: 0;
+  transform: translateY(calc(-50vh + 4rem));
 }
 
 .tile-3 {
@@ -185,20 +245,24 @@ export default {
   border-top: 0.25rem solid black;
 }
 
-.tile-3 .home-image-link {
-  @apply items-start
-    justify-start;
+.tile-3 .home-image-title {
+  left: 0;
+  bottom: 0;
+  transform: translateY(calc(-50vh + 4rem));
 }
 
 .home-body__wrapper {
   @apply fixed
     flex
     items-center;
-  right: 0;
   top: 0;
   width: 50%;
   height: 100%;
   overflow-y: auto;
+}
+
+.home-body__wrapper--active {
+  z-index: 102;
 }
 
 .home-body {
@@ -216,9 +280,19 @@ export default {
 
 .close-icon {
   position: fixed;
-  right: 2rem;
   top: 2rem;
   width: 30px;
+  display: none;
+}
+
+.close-icon--right {
+  right: 2rem;
+  display: block;
+}
+
+.close-icon--left {
+  left: 2rem;
+  display: block;
 }
 
 /* 

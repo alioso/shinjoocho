@@ -13,12 +13,16 @@
 <style>
 .main-title-container {
   @apply fixed
-    z-10
     mt-2
     ml-4
     flex
     flex-col
     items-start;
+  z-index: 101;
+}
+
+.main-title-container.hide {
+  z-index: -1;
 }
 
 .main-title {
