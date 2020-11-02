@@ -1,10 +1,5 @@
 <template>
-  <ul
-    v-if="pages"
-    role="menu"
-    class="main-menu"
-    :class="$nuxt.$route.path === '/' && 'home'"
-  >
+  <ul v-if="pages" role="menu" class="main-menu">
     <li>
       <nuxt-link :to="'/'" role="menuitem" :class="listItemsClassNames"
         >Home</nuxt-link
@@ -39,7 +34,7 @@ export default {
   },
 
   created() {
-    const listItemsClassNames = 'block uppercase mb-2';
+    const listItemsClassNames = 'block lowercase mb-2 text-grey900';
     (this as any).listItemsClassNames = listItemsClassNames;
   }
 };
@@ -47,19 +42,10 @@ export default {
 
 <style>
 .main-menu {
-  @apply fixed
-    inline-block
-    z-10
-    p-4
-    font-semibold;
-  top: 50%;
-  margin-top: -2rem;
-  letter-spacing: 4px;
+  @apply inline-block
+    z-10;
+  margin-top: 2rem;
   opacity: 1;
-  transition: opacity 1000ms ease-in-out;
-}
-
-.main-menu.home {
-  opacity: 0;
+  font-size: 1.1rem;
 }
 </style>

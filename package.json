@@ -33,6 +33,7 @@
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/stylelint-module": "^4.0.0",
+    "@nuxtjs/svg": "^0.1.12",
     "@nuxtjs/tailwindcss": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.2.0",
@@ -42,7 +43,9 @@
     "eslint-plugin-tailwind": "^0.2.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
+    "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
+    "sass-loader": "^10.0.2",
     "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-standard": "^20.0.0"

@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div class="main-container">
+    <div class="sidebar">
+      <Title />
+      <Social />
+      <Menu />
+    </div>
     <Nuxt />
   </div>
 </template>
@@ -76,6 +81,17 @@ a {
 
 a:hover {
   @apply text-blue900;
+}
+
+.main-container {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.sidebar {
+  padding: 4rem 0 4rem 4rem;
+  width: 450px;
 }
 
 .container {

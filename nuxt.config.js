@@ -40,7 +40,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/css/global.scss'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -73,7 +73,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/pwa', '@nuxtjs/markdownit'],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/markdownit', '@nuxtjs/svg'],
   markdownit: {
     injected: true
   },
