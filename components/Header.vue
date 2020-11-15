@@ -1,0 +1,169 @@
+<template>
+  <header>
+    <div class="header-sidebar">
+      <button
+        class="menu-toggle"
+        aria-label="Toggle Menu"
+        :class="$store.getters['menu/menuOpen'] && 'active'"
+        @click="onClick"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div
+        class="main-menu-content"
+        :class="$store.getters['menu/menuOpen'] && 'active'"
+      >
+        <Title />
+        <Social />
+        <ul v-if="pages" role="menu" class="main-menu">
+          <li v-for="page in pages" :key="page.fields.slug">
+            <nuxt-link
+              :to="'/' + page.fields.slug"
+              role="menuitem"
+              :class="listItemsClassNames"
+            >
+              {{ page.fields.title }}
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :to="'/events/upcoming'"
+              role="menuitem"
+              :class="listItemsClassNames"
+              >Events</nuxt-link
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+</template>
+
+<script lang="ts">
+export default {
+  computed: {
+    pages() {
+      return (this as any).$store.state.pages;
+    }
+  },
+  created() {
+    const listItemsClassNames = 'block lowercase mb-2 text-grey900';
+    (this as any).listItemsClassNames = listItemsClassNames;
+  },
+  methods: {
+    onClick() {
+      (this as any).$store.dispatch(
+        'menu/toggleMenu',
+        !(this as any).$store.getters['menu/menuOpen']
+      );
+    }
+  }
+};
+</script>
+
+<style>
+.header-sidebar {
+  padding: 4rem 0 4rem 4rem;
+  width: 350px;
+}
+
+.main-menu {
+  @apply inline-block
+    z-10;
+  /* margin-top: 2rem; */
+  opacity: 1;
+  font-size: 1.1rem;
+  width: 300px;
+  margin-left: -4rem;
+  margin-top: 3rem;
+  padding: 4rem;
+
+  background: #ededed;
+  list-style-type: none;
+}
+
+.main-menu-content {
+  transform: translate(-100%, 0);
+  transform-origin: 0% 0%;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+.main-menu-content.active {
+  transform: none;
+}
+
+.main-menu.active {
+  transform: none;
+}
+
+.menu-toggle {
+  display: block;
+  position: relative;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+  appearance: none;
+}
+
+.menu-toggle:focus {
+  outline: 0;
+}
+
+/*
+ * Just a quick hamburger
+ */
+.menu-toggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #cdcdcd;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+
+.menu-toggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+.menu-toggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+/* 
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+.menu-toggle.active span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-8px, -16px);
+  background: #232323;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+.menu-toggle.active span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+.menu-toggle.active span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(-3px, 12px);
+}
+</style>

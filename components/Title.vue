@@ -1,8 +1,10 @@
 <template>
-  <div class="main-title-container">
-    <h1 class="main-title">Shinjoo Cho</h1>
-    <p class="main-subtitle">bandoneon / piano</p>
-  </div>
+  <header class="main-title-container">
+    <nuxt-link :to="'/'" role="menuitem">
+      <div class="main-title">Shinjoo Cho</div>
+      <div class="main-subtitle">bandoneon / piano</div>
+    </nuxt-link>
+  </header>
 </template>
 
 <script></script>
@@ -14,8 +16,14 @@
 
 .main-title {
   @apply m-0
-    lowercase;
+    lowercase
+  text-grey900;
   letter-spacing: 4px;
+  font-weight: 400;
+  font-size: 1.75rem;
+  /* font-size: var(--h1); */
+  line-height: calc(2.25rem * 1.125);
+  line-height: calc(var(--h1) * 1.125);
 }
 
 .main-subtitle {

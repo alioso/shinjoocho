@@ -1,10 +1,6 @@
 <template>
   <div class="main-container">
-    <div class="sidebar">
-      <Title />
-      <Social />
-      <Menu />
-    </div>
+    <Header />
     <Nuxt />
   </div>
 </template>
@@ -89,17 +85,11 @@ a:hover {
   height: 100%;
 }
 
-.sidebar {
-  padding: 4rem 0 4rem 4rem;
-  width: 450px;
-}
-
 .container {
   @apply min-h-screen
     flex
-    items-center
-    mx-auto;
-  max-width: 30em;
+    mx-auto
+    p-8;
 }
 
 .container > div {
