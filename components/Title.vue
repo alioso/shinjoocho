@@ -1,6 +1,6 @@
 <template>
   <header class="main-title-container">
-    <nuxt-link :to="'/'" role="menuitem">
+    <nuxt-link :to="'/'" role="menuitem" class="link">
       <div class="main-title">Shinjoo Cho</div>
       <div class="main-subtitle">bandoneon / piano</div>
     </nuxt-link>
@@ -9,7 +9,7 @@
 
 <script></script>
 
-<style>
+<style lang="scss">
 .main-title-container {
   transform: translateY(-8px);
 }

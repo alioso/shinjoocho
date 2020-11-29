@@ -1,51 +1,59 @@
 <template>
   <div class="home-image-container">
-    <ul class="home-image-wrapper">
-      <li
-        v-for="(tile, i) in tiles"
-        :key="tile.fields.url"
-        class="tile"
-        :class="[
-          { active: active_el === i },
-          { inactive: active_el !== i && inactive_el !== null },
-          'tile-' + i
-        ]"
-      >
-        <a href="javascript:;" class="home-image-link" @click="activate(i)">
-          <div
-            :style="`background-image: url(${tile.fields.image.fields.file.url}`"
-            class="home-image"
-          />
-        </a>
-      </li>
-    </ul>
+    <Title class="home-title" />
+    <div class="home-image-wrapper">
+      <div
+        :style="`background-image: url(${featuredTile.fields.image.fields.file.url}`"
+        class="home-image"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      active_el: null,
-      inactive_el: null
-    };
-  },
   computed: {
-    tiles() {
-      const tilesArray = this.$store.state.homeTiles;
+    featuredTile() {
+      const featuredTile = this.$store.state.homeTiles[0];
 
-      return tilesArray;
-    }
-  },
-  methods: {
-    activate(el) {
-      this.active_el = el;
-      this.inactive_el = !el;
+      return featuredTile;
     }
   }
 };
 </script>
 
 <style lang="scss">
-@import '../css/index.scss';
+.home-image-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.home-image-wrapper {
+  height: 100%;
+  z-index: 100;
+}
+
+.home-image {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+}
+
+.tile {
+  width: 100%;
+  height: 100%;
+}
+
+.home-title {
+  position: fixed;
+  right: 0;
+  padding: 2rem;
+
+  * {
+    color: white;
+  }
+}
 </style>

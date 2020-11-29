@@ -1,16 +1,16 @@
 <template>
-  <header>
+  <header class="header-container">
+    <button
+      class="menu-toggle p-8"
+      aria-label="Toggle Menu"
+      :class="$store.getters['menu/menuOpen'] && 'active'"
+      @click="onClick"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class="header-sidebar">
-      <button
-        class="menu-toggle"
-        aria-label="Toggle Menu"
-        :class="$store.getters['menu/menuOpen'] && 'active'"
-        @click="onClick"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
       <div
         class="main-menu-content"
         :class="$store.getters['menu/menuOpen'] && 'active'"
@@ -64,9 +64,17 @@ export default {
 </script>
 
 <style>
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
 .header-sidebar {
   padding: 4rem 0 4rem 4rem;
-  width: 350px;
+  position: relative;
+  z-index: 100;
 }
 
 .main-menu {
@@ -79,8 +87,6 @@ export default {
   margin-left: -4rem;
   margin-top: 3rem;
   padding: 4rem;
-
-  background: #ededed;
   list-style-type: none;
 }
 
@@ -88,6 +94,12 @@ export default {
   transform: translate(-100%, 0);
   transform-origin: 0% 0%;
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  height: 100vh;
+  padding: 5rem 2rem 2rem;
 }
 
 .main-menu-content.active {
@@ -101,9 +113,7 @@ export default {
 .menu-toggle {
   display: block;
   position: relative;
-
-  z-index: 1;
-
+  z-index: 101;
   -webkit-user-select: none;
   user-select: none;
   appearance: none;

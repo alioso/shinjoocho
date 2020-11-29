@@ -8,3 +8,25 @@ body {
 #__layout {
   height: 100%;
 }
+
+/* 
+**********************
+Page transitions below
+**********************
+*/
+.page-enter-active,
+.page-leave-active {
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  transition-duration: 320ms;
+}
+
+.page-enters,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* .page-enter .home-image-container:nth-of-type(1),
+.page-leave-to .home-image-container:nth-of-type(1) {
+  height: 100%;
+} */
