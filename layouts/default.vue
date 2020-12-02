@@ -1,11 +1,19 @@
 <template>
   <div class="main-container">
     <Header />
-    <Nuxt />
+    <Nuxt class="content-container" />
   </div>
 </template>
 
-<script lang="ts"></script>
+<script>
+export default {
+  created() {
+    if (this.$route.path !== '/' && !this.$store.getters['menu/menuOpen']) {
+      this.$store.dispatch('menu/toggleMenu', true);
+    }
+  }
+};
+</script>
 
 <style>
 html {
@@ -85,14 +93,15 @@ a:hover {
   height: 100%;
 }
 
-.container {
+.content-container {
   @apply min-h-screen
-    flex
-    mx-auto
-    p-8;
+    flex;
+  padding: 4rem;
+  transform: translateX(300px);
+  width: calc(100% - 300px);
 }
 
-.container > div {
+.content-container > div {
   @apply w-full;
 }
 
@@ -100,7 +109,7 @@ a:hover {
 .page-leave-active {
   transition-property: opacity;
   transition-timing-function: ease-in-out;
-  transition-duration: 500ms;
+  transition-duration: 325ms;
 }
 .page-enter,
 .page-leave-to {

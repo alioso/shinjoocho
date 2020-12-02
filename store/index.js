@@ -23,7 +23,8 @@ export const actions = {
     try {
       if (!client) return;
       const response = await client.getEntries({
-        content_type: 'page'
+        content_type: 'page',
+        order: 'fields.order'
       });
       if (response.items.length > 0) commit('setPages', response.items);
     } catch (err) {

@@ -10,7 +10,9 @@
           role="menuitem"
           :to="'/events/' + event.fields.slug"
         >
-          <div>{{ $dateFns.format(event.fields.date, 'EEEE, MMMM d, yyyy') }}</div>
+          <div>
+            {{ $dateFns.format(event.fields.date, 'EEEE, MMMM d, yyyy') }}
+          </div>
           <div>{{ event.fields.title }}</div>
         </nuxt-link>
       </div>

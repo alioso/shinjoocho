@@ -1,9 +1,7 @@
 <template>
   <header class="main-title-container">
-    <nuxt-link :to="'/'" role="menuitem" class="link">
-      <div class="main-title">Shinjoo Cho</div>
-      <div class="main-subtitle">bandoneon / piano</div>
-    </nuxt-link>
+    <div class="main-title">Shinjoo Cho</div>
+    <div class="main-subtitle">bandoneon / piano</div>
   </header>
 </template>
 

@@ -15,7 +15,7 @@
         class="main-menu-content"
         :class="$store.getters['menu/menuOpen'] && 'active'"
       >
-        <Title />
+        <Title class="mt-4" />
         <Social />
         <ul v-if="pages" role="menu" class="main-menu">
           <li v-for="page in pages" :key="page.fields.slug">
@@ -41,23 +41,30 @@
   </header>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   computed: {
     pages() {
-      return (this as any).$store.state.pages;
+      return this.$store.state.pages;
     }
   },
   created() {
     const listItemsClassNames = 'block lowercase mb-2 text-grey900';
-    (this as any).listItemsClassNames = listItemsClassNames;
+    this.listItemsClassNames = listItemsClassNames;
   },
+  // data() {
+  //   console.log(this.$store.getters['menu/menuOpen'])
+  //   return {}
+  // },
   methods: {
     onClick() {
-      (this as any).$store.dispatch(
+      this.$store.dispatch(
         'menu/toggleMenu',
-        !(this as any).$store.getters['menu/menuOpen']
+        !this.$store.getters['menu/menuOpen']
       );
+      if (this.$route.path !== '/' && !this.$store.getters['menu/menuOpen']) {
+        this.$router.push('/')
+      }
     }
   }
 };
@@ -82,10 +89,10 @@ export default {
     z-10;
   /* margin-top: 2rem; */
   opacity: 1;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   width: 300px;
   margin-left: -4rem;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
   padding: 4rem;
   list-style-type: none;
 }
@@ -97,7 +104,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.85);
   height: 100vh;
   padding: 5rem 2rem 2rem;
 }
@@ -123,9 +130,6 @@ export default {
   outline: 0;
 }
 
-/*
- * Just a quick hamburger
- */
 .menu-toggle span {
   display: block;
   width: 33px;
@@ -152,27 +156,17 @@ export default {
   transform-origin: 0% 100%;
 }
 
-/* 
- * Transform all the slices of hamburger
- * into a crossmark.
- */
 .menu-toggle.active span {
   opacity: 1;
   transform: rotate(45deg) translate(-8px, -16px);
   background: #232323;
 }
 
-/*
- * But let's hide the middle one.
- */
 .menu-toggle.active span:nth-last-child(3) {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
 }
 
-/*
- * Ohyeah and the last one should go the other direction
- */
 .menu-toggle.active span:nth-last-child(2) {
   transform: rotate(-45deg) translate(-3px, 12px);
 }
