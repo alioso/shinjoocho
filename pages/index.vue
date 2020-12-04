@@ -1,6 +1,9 @@
 <template>
   <div class="home-image-container">
-    <Title class="home-title" :class="$store.getters['menu/menuOpen'] && 'hid'" />
+    <Title
+      class="home-title"
+      :class="$store.getters['menu/menuOpen'] && 'hid'"
+    />
     <div class="home-image-wrapper">
       <div
         :style="`background-image: url(${featuredTile.fields.image.fields.file.url}`"
@@ -18,11 +21,22 @@ export default {
 
       return featuredTile;
     }
+  },
+  head: {
+    bodyAttrs: {
+      class: 'home-page'
+    }
   }
 };
 </script>
 
 <style lang="scss">
+.home-page {
+  .main-menu-wrapper {
+    transform: translateY(0);
+  }
+}
+
 .home-image-container {
   height: 100%;
   width: 100%;

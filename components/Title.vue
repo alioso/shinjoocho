@@ -22,6 +22,7 @@
   /* font-size: var(--h1); */
   line-height: calc(2.25rem * 1.125);
   line-height: calc(var(--h1) * 1.125);
+  transition: color 125ms ease-in-out;
 }
 
 .main-subtitle {

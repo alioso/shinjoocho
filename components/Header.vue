@@ -3,8 +3,8 @@
     <button
       class="menu-toggle p-8"
       aria-label="Toggle Menu"
-      :class="$store.getters['menu/menuOpen'] && 'active'"
-      @click="onClick"
+      :class="[$store.getters['menu/menuOpen'] && 'active', !isHome && 'hid']"
+      @click="onCloselick"
     >
       <span></span>
       <span></span>
@@ -15,27 +15,25 @@
         class="main-menu-content"
         :class="$store.getters['menu/menuOpen'] && 'active'"
       >
-        <Title class="mt-4" />
-        <Social />
-        <ul v-if="pages" role="menu" class="main-menu">
-          <li v-for="page in pages" :key="page.fields.slug">
-            <nuxt-link
-              :to="'/' + page.fields.slug"
-              role="menuitem"
-              :class="listItemsClassNames"
-            >
-              {{ page.fields.title }}
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
-              :to="'/events/upcoming'"
-              role="menuitem"
-              :class="listItemsClassNames"
-              >Events</nuxt-link
-            >
-          </li>
-        </ul>
+        <div class="main-menu-wrapper">
+          <div @click="onLogoClick">
+            <a href="/" class="title-link">
+              <Title class="mt-4" />
+            </a>
+          </div>
+          <Social />
+          <ul v-if="pages" role="menu" class="main-menu">
+            <li v-for="page in pages" :key="page.fields.slug">
+              <nuxt-link
+                :to="'/' + page.fields.slug"
+                role="menuitem"
+                :class="listItemsClassNames"
+              >
+                {{ page.fields.title }}
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
@@ -46,31 +44,41 @@ export default {
   computed: {
     pages() {
       return this.$store.state.pages;
+    },
+    isHome() {
+      return this.$route.path === '/';
     }
   },
   created() {
-    const listItemsClassNames = 'block lowercase mb-2 text-grey900';
+    const listItemsClassNames = 'header-link block lowercase mb-2 text-grey900';
     this.listItemsClassNames = listItemsClassNames;
   },
-  // data() {
-  //   console.log(this.$store.getters['menu/menuOpen'])
-  //   return {}
-  // },
+  mounted() {
+    console.log(this.$route);
+  },
   methods: {
-    onClick() {
+    onCloselick() {
       this.$store.dispatch(
         'menu/toggleMenu',
         !this.$store.getters['menu/menuOpen']
       );
-      if (this.$route.path !== '/' && !this.$store.getters['menu/menuOpen']) {
-        this.$router.push('/')
+      if (!this.isHome && !this.$store.getters['menu/menuOpen']) {
+        this.$router.push('/');
       }
+    },
+    onLogoClick(e) {
+      e.preventDefault();
+      setTimeout(() => {
+        this.$store.dispatch('menu/toggleMenu', false);
+      }, 225);
+
+      this.$router.push('/');
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 .header-container {
   position: fixed;
   top: 0;
@@ -95,6 +103,23 @@ export default {
   /* margin-top: 3rem; */
   padding: 4rem;
   list-style-type: none;
+
+  a {
+    transition: color 125ms ease-in-out;
+
+    &:hover {
+      color: #f2703d;
+    }
+    &.nuxt-link-active {
+      color: #f2703d;
+      font-weight: 700;
+    }
+  }
+}
+
+.main-menu-wrapper {
+  transform: translateY(-4rem);
+  transition: transform 225ms ease-in-out;
 }
 
 .main-menu-content {
@@ -124,6 +149,18 @@ export default {
   -webkit-user-select: none;
   user-select: none;
   appearance: none;
+  opacity: 1;
+  transition: opacity 225ms ease-in-out;
+
+  &.hid {
+    opacity: 0;
+  }
+}
+
+.title-link {
+  :hover .main-title {
+    color: #f2703d;
+  }
 }
 
 .menu-toggle:focus {

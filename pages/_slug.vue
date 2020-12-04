@@ -22,6 +22,7 @@
   margin: 0;
   top: 0;
   background-size: cover;
+  background-position: 50% 40%;
   position: absolute;
   left: 0;
 }
