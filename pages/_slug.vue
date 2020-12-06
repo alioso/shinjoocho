@@ -36,8 +36,8 @@
 .content-title {
   position: absolute;
   z-index: 3;
-  top: 252px;
-  background: linear-gradient(#fff 0%, #fff 60%, #000 60%, #000 100%);
+  top: 278px;
+  background: linear-gradient(#fff 0%, #fff 65%, #000 55%, #000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -61,11 +61,7 @@ export default {
       return page[0];
     },
     body() {
-      const page = this.$store.state.pages.filter(
-        (page) => page.fields.slug === this.slug
-      );
-
-      const richTextHtml = documentToHtmlString(page[0].fields.body);
+      const richTextHtml = documentToHtmlString(this.page.fields.body);
 
       return {
         richTextHtml

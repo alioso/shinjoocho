@@ -108,10 +108,10 @@ export default {
     transition: color 125ms ease-in-out;
 
     &:hover {
-      color: #f2703d;
+      @apply text-orange;
     }
     &.nuxt-link-active {
-      color: #f2703d;
+      @apply text-orange;
       font-weight: 700;
     }
   }
@@ -159,7 +159,7 @@ export default {
 
 .title-link {
   :hover .main-title {
-    color: #f2703d;
+    @apply text-orange;
   }
 }
 
@@ -174,7 +174,7 @@ export default {
   margin-bottom: 5px;
   position: relative;
 
-  background: #cdcdcd;
+  background: #f5f5f5;
   border-radius: 3px;
 
   z-index: 1;

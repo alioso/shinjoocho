@@ -41,6 +41,7 @@ module.exports = {
       blue400: '#3399e1',
       blue200: '#d8ecfa',
       blue100: '#edf5fc',
+      orange: '#f2703d',
 
       // GRAYSCALE
       grey900: '#1a202c',
