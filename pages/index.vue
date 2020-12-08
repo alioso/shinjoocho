@@ -1,9 +1,6 @@
 <template>
   <div class="home-image-container">
-    <Title
-      class="home-title"
-      :class="$store.getters['menu/menuOpen'] && 'hid'"
-    />
+    <Title class="home-title" :class="$store.getters['menu/menuOpen'] && 'hid'" />
     <div class="home-image-wrapper">
       <div
         :style="`background-image: url(${featuredTile.fields.image.fields.file.url}`"
@@ -32,6 +29,9 @@ export default {
 
 <style lang="scss">
 .home-page {
+  max-width: 100%;
+  margin: initial;
+
   .main-menu-wrapper {
     transform: translateY(0);
   }
@@ -46,6 +46,7 @@ export default {
   &.content-container {
     padding: 0;
     transform: none;
+    max-width: 100%;
   }
 }
 

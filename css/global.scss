@@ -4,12 +4,17 @@ body {
   background-color: #f4f4f4;
 }
 
+body {
+  max-width: 1540px;
+  margin: 0 auto;
+}
+
 #__nuxt,
 #__layout {
   height: 100%;
 }
 
-/* 
+/*
 **********************
 Page transitions below
 **********************
