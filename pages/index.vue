@@ -19,6 +19,11 @@ export default {
       return featuredTile;
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.$store.dispatch('menu/toggleMenu', false);
+    })
+  },
   head: {
     bodyAttrs: {
       class: 'home-page'
