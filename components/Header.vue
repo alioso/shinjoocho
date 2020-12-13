@@ -23,7 +23,7 @@
           </div>
           <Social />
           <ul v-if="pages" role="menu" class="main-menu">
-            <li v-for="page in pages" :key="page.fields.slug">
+            <li v-for="page in pages" :key="page.fields.slug" @click="onMenuItemClick">
               <nuxt-link
                 :to="'/' + page.fields.slug"
                 role="menuitem"
@@ -41,6 +41,12 @@
 
 <script>
 export default {
+  props: {
+    isMobile: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     pages() {
       return this.$store.state.pages;
@@ -53,16 +59,13 @@ export default {
     const listItemsClassNames = 'header-link block lowercase mb-2 text-grey900';
     this.listItemsClassNames = listItemsClassNames;
   },
-  mounted() {
-    console.log(this.$route);
-  },
   methods: {
     onCloselick() {
       this.$store.dispatch(
         'menu/toggleMenu',
         !this.$store.getters['menu/menuOpen']
       );
-      if (!this.isHome && !this.$store.getters['menu/menuOpen']) {
+      if (!this.isHome && !this.$store.getters['menu/menuOpen'] && !this.isMobile) {
         this.$router.push('/');
       }
     },
@@ -73,6 +76,11 @@ export default {
       }, 225);
 
       this.$router.push('/');
+    },
+    onMenuItemClick() {
+      if (this.isMobile) {
+        this.$store.dispatch('menu/toggleMenu', false);
+      }
     }
   }
 };
@@ -83,7 +91,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 10;
 }
 
 .header-sidebar {
@@ -118,8 +126,11 @@ export default {
 }
 
 .main-menu-wrapper {
-  transform: translateY(-4rem);
   transition: transform 225ms ease-in-out;
+
+  @screen md {
+    transform: translateY(-4rem);
+  }
 }
 
 .main-menu-content {
@@ -129,9 +140,13 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.95);
   height: 100vh;
   padding: 5rem 2rem 2rem;
+
+  @screen md {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
 }
 
 .main-menu-content.active {
@@ -153,7 +168,9 @@ export default {
   transition: opacity 225ms ease-in-out;
 
   &.hid {
-    opacity: 0;
+    @screen md { 
+      opacity: 0;
+    }
   }
 }
 

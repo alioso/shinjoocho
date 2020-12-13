@@ -9,6 +9,7 @@
           class="content-image"
           :style="`background-image: url(${'https:' + image})`"
         ></div>
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <article class="content-text" v-html="body.richTextHtml" />
       </div>
     </div>

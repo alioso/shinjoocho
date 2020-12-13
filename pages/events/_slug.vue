@@ -76,9 +76,6 @@ export default {
       };
     }
   },
-  mounted() {
-    console.log(this.event);
-  },
   head() {
     return {
       title: this.event.fields.title

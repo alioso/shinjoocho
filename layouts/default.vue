@@ -1,21 +1,51 @@
 <template>
   <div class="main-container">
-    <Header />
+    <Header :is-mobile="isMobile" />
     <Nuxt class="content-container" />
   </div>
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
+
 export default {
-  created() {
-    if (this.$route.path !== '/' && !this.$store.getters['menu/menuOpen']) {
-      this.$store.dispatch('menu/toggleMenu', true);
+  data() {
+    return {
+      isMobile: true
     }
-  }
+  },
+   mounted() {
+    const setViewport = () => {
+      if (document.documentElement.clientWidth <= 768) {
+        this.isMobile = true
+        this.$store.dispatch(
+          'menu/toggleMenu',
+          false
+        );
+      } else {
+        this.isMobile = false
+        this.$store.dispatch(
+          'menu/toggleMenu',
+          true
+        );
+      }
+    }
+  
+    setViewport()
+
+    this.$nextTick(() => {
+      window.addEventListener(
+        'resize',
+        debounce(() => {
+          setViewport()
+        }, 100)
+      )
+    })
+  },
 };
 </script>
 
-<style>
+<style lang="scss">
 html {
   @apply font-body;
   line-height: var(--body-line-height);
@@ -57,8 +87,12 @@ a:hover {
   @apply min-h-screen
     flex;
   padding: 4rem;
-  transform: translateX(300px);
-  width: calc(100% - 300px);
+  max-width: 100%;
+
+  @screen md {
+    transform: translateX(300px);
+    width: calc(100% - 300px);
+  }
 }
 
 .content-container > div {
