@@ -27,7 +27,7 @@
     "contentful": "^7.14.6",
     "dotenv": "^8.2.0",
     "lodash.debounce": "^4.0.8",
-    "nuxt": "^2.14.0"
+    "nuxt": "^2.15.8"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^1.0.3",
@@ -45,7 +45,7 @@
     "eslint-plugin-tailwind": "^0.2.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "prettier": "^2.0.5",
     "sass-loader": "^10.0.2",
     "stylelint": "^13.6.1",
